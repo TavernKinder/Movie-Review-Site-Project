@@ -11,6 +11,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "jquery": "^4.0.0",
+    "jquery-slim": "^3.0.0"
   }
 }
