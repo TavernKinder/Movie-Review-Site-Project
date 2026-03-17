@@ -1,13 +1,13 @@
-function renderHeader(){
-    let header = document.getElementById('header')
+function renderHeader() {
+    let header = document.getElementById('header');
     header.innerHTML = `
-            <header class="header">
+        <header class="header">
             <span class="home-saved">
                 <button id="home" class="material-symbols-outlined">home</button>
-                <button id="saved">My Lists</button>
+                <button id="saved" class="fontdiner-swanky-regular">My Lists</button>
             </span>
-            <span class="searchBar">
-                <input type="text" id="searchString" name="searchString" placeholder="Search">
+            <span class="searchBar fontdiner-swanky-regular">
+                <input type="text" id="searchString" name="searchString" placeholder="Search (NOT IMPLEMENTED)" required>
                 <button type="submit" id="searchButton" class="material-symbols-outlined">search</button>
             </span>
             <button id="settings" class="material-symbols-outlined">settings</button>
@@ -15,25 +15,23 @@ function renderHeader(){
     `;
 }
 
-function addHeaderFunctionality(){
-    let homeBTN = document.getElementById('home')
-    homeBTN.addEventListener(`click`, function(event){
-        window.location.href='index.html';
-    })
-    //////////// SEARCH FUNCTIONALITY ADD HERE
-    //////////////////////////////////
-    //////////////////////////
-    let myListsBTN = document.getElementById('saved')
-    myListsBTN.addEventListener('click', function(event){
-        onclick=window.location.href='saved.html'
-    })
+function addHeaderFunctionality() {
+    let homeBTN = document.getElementById('home');
+    homeBTN.addEventListener('click', function (event) {
+        window.location.href = 'index.html';
+    });
+
+    let myListsBTN = document.getElementById('saved');
+    myListsBTN.addEventListener('click', function (event) {
+        window.location.href = 'saved.html';
+    });
 }
 
-function searchFunctionality(searchQuery){
-    console.log('Not Finnished')
+function searchFunctionality(searchQuery) {
+    console.log('Not Finished');
 }
 
-export function createHeader(){
+export function createHeader() {
     renderHeader();
     addHeaderFunctionality();
 }

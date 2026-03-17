@@ -106,11 +106,15 @@ export async function renderContentRow(contentArr, heading = 'Content', rowId = 
 			const title = movie?.title || movie?.name || 'Movie Poster';
 			const imgSrc = posterPath
 				? `https://image.tmdb.org/t/p/w500/${posterPath}`
-				: 'img/examplePoster.png';
+				: 'img/poster_backup.png';
+			const movieId = movie?.id;
+			const detailsHref = `details.html?id=${encodeURIComponent(movieId)}`;
 
 			return `
 				<div class="content-row-item">
-					<img src="${imgSrc}" alt="${title}" class="poster-in-row">
+					<a href="${detailsHref}" aria-label="View details for ${title}">
+						<img src="${imgSrc}" alt="${title}" class="poster-in-row" onerror="this.onerror=null;this.src='img/poster_backup.png';">
+					</a>
 				</div>
 			`;
 		}).join('');

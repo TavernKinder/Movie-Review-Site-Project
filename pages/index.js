@@ -70,21 +70,32 @@ async function getPopularMovies() {
 
 // Builds the featured banner carousel from popular movies.
 async function renderFeaturedBanner(popularMoviesArg) {
-    let popularMovies = popularMoviesArg || await getPopularMovies()
-    let carouselBannerContent = document.getElementById('carouselBannerContent')
-    carouselBannerContent.innerHTML = "";
-    const bannerMovieCount = Math.min(5, popularMovies.length);
-    for(let i = 0; i < bannerMovieCount; i++){
-        carouselBannerContent.innerHTML += `
-        <div id="Banner${i+1}" class="carousel-item ${i === 0 ? 'active' : ''}">
-            <img id="BannerImage${i+1}" class="d-block w-100" src="https://image.tmdb.org/t/p/original/${popularMovies[i].backdrop_path}" alt="Slide ${i+1}">
-            <div class="carousel-caption banner-caption">
-                <h5 id="BannerTitle${i+1}">${popularMovies[i].title}</h5>
-            </div>
-        </div>
-        `
-    }
+    const popularMovies = popularMoviesArg || await getPopularMovies();
+    const carouselBannerContent = document.getElementById('carouselBannerContent');
+    carouselBannerContent.innerHTML = '';
 
+    const bannerMovieCount = Math.min(5, popularMovies.length);
+
+    for (let i = 0; i < bannerMovieCount; i++) {
+        const movie = popularMovies[i];
+        const movieId = movie?.id;
+        const detailsHref = movieId ? `details.html?id=${encodeURIComponent(movieId)}` : '#';
+        const title = movie?.title || movie?.name || `Slide ${i + 1}`;
+        const backdropSrc = movie?.backdrop_path
+            ? `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`
+            : 'img/banner_backup.png';
+
+        carouselBannerContent.innerHTML += `
+        <div id="Banner${i + 1}" class="carousel-item ${i === 0 ? 'active' : ''}">
+            <a href="${detailsHref}" class="d-block text-decoration-none text-reset" aria-label="View details for ${title}">
+                <img id="BannerImage${i + 1}" class="d-block w-100" src="${backdropSrc}" alt="${title}" onerror="this.onerror=null;this.src='img/banner_backup.png';">
+                <div class="carousel-caption banner-caption">
+                    <h5 id="BannerTitle${i + 1}">${title}</h5>
+                </div>
+            </a>
+        </div>
+        `;
+    }
 }
 
 // Fetches movies for a specific TMDB numeric genre id.
