@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details</title>
+    <title id="pageTitle">Details</title>
     <!-- Custom JS -->
     <script type="module" src="pages/details.js" defer></script>
     <!-- Bootstrap 5 CSS -->
@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=home,menu,search,settings" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home,menu,search,settings,star" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles/style.css">
     <!-- Bootstrap 5 JS -->
@@ -37,11 +37,38 @@
                     </div>
                 </div>
                 <div class="col-md-8 movie-details">
-                    <h1 id="mediaTitle">Da Name</h1>
-                    <h2 class="normal-text"><span id="releaseDate">Da Date </span>&middot <span id="movieLength">Da Length</span> &middot <span id="movieGenres">Da Genre</span></h2>
-                    <p id="mediaOverview">Da Details</p>
+                    <h1 id="mediaTitle">Movie Name</h1>
+                    <h2 class="normal-text"><span id="releaseDate"> Date </span>&middot <span id="movieLength">Duration</span> &middot <span id="movieGenres">Genre</span></h2>
+                    <p id="mediaOverview">Movie Details</p>
+                    <div class="movie-trailer">
+                        <h3 id="trailerTitle">Trailer</h3>
+                        <iframe width="320" height="180" id="movieTrailer"
+                        src="https://www.youtube.com/embed/2yJgwwDcgV8" title="Example Movie" 
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="ratings-and-comment-section" class="container mt-4">
+            <div id="your-rating-and-comment" class="container mt-4">
+                <h2 class="fontdiner-swanky-regular">Your Rating & Comment</h2>
+                <div class="d-flex gap-3 align-items-center mb-3">
+                    <div id="starRating" class="star-rating">
+                        <button data-value="1"><span class="material-symbols-outlined star hollow">star</span></button>
+                        <button data-value="2"><span class="material-symbols-outlined star hollow">star</span></button>
+                        <button data-value="3"><span class="material-symbols-outlined star hollow">star</span></button>
+                        <button data-value="4"><span class="material-symbols-outlined star hollow">star</span></button>
+                        <button data-value="5"><span class="material-symbols-outlined star hollow">star</span></button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="commentInput" class="form-label fontdiner-swanky-regular">Your Comment</label>
+                    <textarea class="form-control" id="commentInput" rows="3"></textarea>
+                    <button id="saveCommentBtn" class="btn btn-primary mt-2 fontdiner-swanky-regular">Save Comment</button>
+                </div>
+            </div>
+            <!-- <div id="other-comments-and-ratings"></div> -->
         </div>
     </main>
 </body>

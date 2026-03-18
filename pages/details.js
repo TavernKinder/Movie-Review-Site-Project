@@ -1,5 +1,6 @@
 import { createHeader } from './header.js';
-import Storage from '../scripts/storage.js';
+import Storage from '../storage/storage.js';
+import { displayCurrentRating, displayCurrentComment, setupRatings } from '../scripts/rating.js';
 
 createHeader();
 
@@ -32,7 +33,7 @@ async function fetchMediaDetails(mediaId) {
     return null;
   } else {
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${mediaId}?language=en-US`, {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${mediaId}?language=en-US&append_to_response=videos`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${TMDB_API_KEY}`,
@@ -52,6 +53,7 @@ async function fetchMediaDetails(mediaId) {
 }
 
 async function renderMediaDetails(mediaDetails) {
+    console.log('Rendering media details:', mediaDetails);
     const detailsContainer = document.getElementById('detailsContainer');
     const poster = document.getElementById('poster-image');
     const title = document.getElementById('mediaTitle');
@@ -59,7 +61,28 @@ async function renderMediaDetails(mediaDetails) {
     const movieLength = document.getElementById('movieLength');
     const movieGenres = document.getElementById('movieGenres');
     const overview = document.getElementById('mediaOverview');
-    
+    const pageTitle = document.getElementById('pageTitle');
+    const trailerTitle = document.getElementById('trailerTitle');
+    const trailerFrame = document.getElementById('movieTrailer');
+
+    // Update the page title to include the movie name
+
+    if (mediaDetails && mediaDetails.title) {
+        pageTitle.innerHTML = `${mediaDetails.title} - Details`;
+    } else {
+        pageTitle.textContent = 'Details';
+    }
+
+    // Update trailer if available
+    const trailer = mediaDetails?.videos?.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+    if (trailer) {
+        trailerTitle.innerHTML = 'Trailer';
+        trailerFrame.src = 'https://www.youtube.com/embed/' + trailer.key;
+    } else {
+        trailerTitle.innerHTML = 'Trailer Not Available';
+        trailerFrame.style.display = 'none';
+    }
+
     // Store the current movie
     currentMovie = mediaDetails;
     
@@ -127,6 +150,8 @@ function updateButtonStates() {
     }
 }
 
+
+
 function setupButtonListeners() {
     // Watch Later button
     const watchLaterBtn = document.getElementById('saveToWatchLaterBtn');
@@ -153,12 +178,14 @@ function setupButtonListeners() {
         }
         updateButtonStates();
     });
+
+    // Star rating and comment listeners
+    setupRatings(currentMovie);
 }
 
 async function main() {
-    // Load stored lists from localStorage
-    Storage.loadFavoriteMovies();
-    Storage.loadWatchLaterMovies();
+    // Load all storage-backed collections
+    Storage.loadAll();
 
     const mediaId = getIdFromUrl();
     console.log('Parsed ID:', mediaId);
@@ -170,6 +197,10 @@ async function main() {
 
     // Setup button event listeners
     setupButtonListeners();
+
+    // Load and display saved rating and comment
+    displayCurrentRating(currentMovie);
+    displayCurrentComment(currentMovie);
 
     handleLayout();
     window.addEventListener('resize', handleLayout);
